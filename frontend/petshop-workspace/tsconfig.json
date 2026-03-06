@@ -1,0 +1,74 @@
+/* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
+/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "strict": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "experimentalDecorators": true,
+    "paths": {
+      "auth-lib": ["./dist/auth-lib"],
+      "shared-lib": ["./dist/shared-lib"],
+      "ui-lib": ["./dist/ui-lib"]
+    },
+    "importHelpers": true,
+    "target": "ES2022",
+    "module": "preserve"
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
+  },
+  "files": [],
+  "references": [
+    {
+      "path": "./projects/shell/tsconfig.app.json"
+    },
+    {
+      "path": "./projects/shell/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/apps/product-app/tsconfig.app.json"
+    },
+    {
+      "path": "./projects/apps/product-app/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/apps/order-app/tsconfig.app.json"
+    },
+    {
+      "path": "./projects/apps/order-app/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/apps/report-app/tsconfig.app.json"
+    },
+    {
+      "path": "./projects/apps/report-app/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/libs/shared-lib/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/libs/shared-lib/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/libs/auth-lib/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/libs/auth-lib/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/libs/ui-lib/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/libs/ui-lib/tsconfig.spec.json"
+    }
+  ]
+}

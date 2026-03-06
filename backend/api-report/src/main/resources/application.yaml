@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: api-report
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/petstore
+server:
+  port: 8083

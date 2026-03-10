@@ -10,7 +10,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: none   # report service only reads; schema is owned by api-order
+      ddl-auto: none # report service only reads; schema is owned by api-order
     show-sql: false
     properties:
       hibernate:

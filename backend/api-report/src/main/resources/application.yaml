@@ -10,11 +10,10 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
-    show-sql: true
+      ddl-auto: none   # report service only reads; schema is owned by api-order
+    show-sql: false
     properties:
       hibernate:
-        format_sql: true
         dialect: org.hibernate.dialect.MySQLDialect
 
   security:

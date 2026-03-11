@@ -1,0 +1,145 @@
+# Docker Compose — Backend only (dành cho dev/test)
+# Frontend Angular tiếp tục chạy local ngoài Docker.
+# Keycloak cũng chạy local (port 8080) — xem ghi chú ở dưới.
+#
+# ⚠️  Lưu ý trước khi chạy:
+#   1. Keycloak phải đang chạy local ở cổng 8080 với realm "petstore".
+#   2. Các container kết nối Keycloak qua host.docker.internal:8080
+#      (Docker Desktop for Windows hỗ trợ sẵn).
+#   3. Để build lại sau khi sửa code:  docker compose build
+#   4. Khởi động toàn bộ:              docker compose up -d
+#   5. Xem log:                        docker compose logs -f
+#   6. Tắt và xóa container:           docker compose down
+#   7. Tắt và xóa cả volume DB:        docker compose down -v
+
+services:
+  # ── MySQL ──────────────────────────────────────────────────────────────────
+  mysql:
+    image: mysql/mysql-server:latest
+    container_name: petstore-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: admin@123
+      MYSQL_ROOT_HOST: "%"
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "mysqladmin",
+          "ping",
+          "-h",
+          "localhost",
+          "-u",
+          "root",
+          "-padmin@123",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  # ── Keycloak  (port 8080) ──────────────────────────────────────────────────
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    container_name: petstore-keycloak
+    restart: unless-stopped
+    command: start-dev --import-realm
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./keycloak/realms:/opt/keycloak/data/import:ro
+    healthcheck:
+      test:
+        ["CMD-SHELL", "curl -sf http://localhost:9000/health/ready || exit 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 10
+      start_period: 60s
+
+  # ── api-product  (port 8081) ───────────────────────────────────────────────
+  api-product:
+    build:
+      context: ./api-product
+    container_name: petstore-api-product
+    restart: unless-stopped
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/petstore_store?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: admin@123
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  # ── api-order  (port 8082) ────────────────────────────────────────────────
+  api-order:
+    build:
+      context: ./api-order
+    container_name: petstore-api-order
+    restart: unless-stopped
+    ports:
+      - "8082:8082"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/petstore_system?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: admin@123
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI: http://keycloak:8080/realms/petstore/protocol/openid-connect/certs
+    depends_on:
+      mysql:
+        condition: service_healthy
+      keycloak:
+        condition: service_healthy
+
+  # ── api-report  (port 8083) ───────────────────────────────────────────────
+  api-report:
+    build:
+      context: ./api-report
+    container_name: petstore-api-report
+    restart: unless-stopped
+    ports:
+      - "8083:8083"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/petstore_system?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: admin@123
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI: http://keycloak:8080/realms/petstore/protocol/openid-connect/certs
+    depends_on:
+      mysql:
+        condition: service_healthy
+      keycloak:
+        condition: service_healthy
+      api-order:
+        condition: service_started
+
+  # ── api-gateway  (port 8000) ──────────────────────────────────────────────
+  api-gateway:
+    build:
+      context: ./api-gateway
+    container_name: petstore-api-gateway
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI: http://keycloak:8080/realms/petstore/protocol/openid-connect/certs
+      # Override route URIs sang internal Docker service names
+      SPRING_CLOUD_GATEWAY_MVC_ROUTES_0_URI: http://api-product:8081
+      SPRING_CLOUD_GATEWAY_MVC_ROUTES_1_URI: http://api-order:8082
+      SPRING_CLOUD_GATEWAY_MVC_ROUTES_2_URI: http://api-report:8083
+    depends_on:
+      - api-product
+      - api-order
+      - api-report
+      - keycloak
+
+volumes:
+  mysql_data:
+    name: petstore-mysql-data

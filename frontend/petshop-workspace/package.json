@@ -23,9 +23,13 @@
     "@angular/router": "^21.2.0",
     "@softarc/native-federation-node": "^2.0.10",
     "es-module-shims": "^1.5.12",
+    "express": "^5.2.1",
+    "express-generator": "^4.16.1",
     "keycloak-angular": "^21.0.0",
     "keycloak-js": "^26.2.3",
+    "nodemon": "^3.1.14",
     "rxjs": "~7.8.0",
+    "slugify": "^1.6.6",
     "tslib": "^2.3.0"
   },
   "devDependencies": {

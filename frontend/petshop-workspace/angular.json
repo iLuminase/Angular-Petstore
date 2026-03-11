@@ -48,6 +48,11 @@
               {
                 "glob": "**/*",
                 "input": "projects/shell/public"
+              },
+              {
+                "glob": "silent-check-sso.html",
+                "input": "projects/shell/src",
+                "output": "/"
               }
             ],
             "styles": ["projects/shell/src/styles.css"],

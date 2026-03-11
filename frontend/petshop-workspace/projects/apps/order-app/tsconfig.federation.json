@@ -1,0 +1,16 @@
+{
+  "extends": "../../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../out-tsc/app",
+    "types": []
+  },
+  "include": [
+    "src/**/*.ts",
+    "..\\..\\..\\dist\\auth-lib",
+    "..\\..\\..\\dist\\shared-lib",
+    "..\\..\\..\\dist\\ui-lib"
+  ],
+  "exclude": [
+    "src/**/*.spec.ts"
+  ]
+}

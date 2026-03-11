@@ -1,0 +1,18 @@
+<section class="section why-section">
+  <div class="container">
+    <div class="section-header">
+      <p class="subtitle">{{ i18n.t('why.subtitle') }}</p>
+      <h2 class="display-2">{{ i18n.t('why.title') }}</h2>
+    </div>
+
+    <div class="why-grid">
+      @for (feat of features; track feat.key) {
+        <div class="why-card">
+          <div class="why-icon">{{ feat.icon }}</div>
+          <h3 class="why-title">{{ i18n.t('why.' + feat.key + '.title') }}</h3>
+          <p class="why-desc">{{ i18n.t('why.' + feat.key + '.desc') }}</p>
+        </div>
+      }
+    </div>
+  </div>
+</section>

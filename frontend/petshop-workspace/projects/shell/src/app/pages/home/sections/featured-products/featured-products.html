@@ -1,0 +1,74 @@
+<section class="section featured-section">
+  <div class="container">
+    <div class="section-header">
+      <p class="subtitle">{{ i18n.t('featured.subtitle') }}</p>
+      <h2 class="display-2">{{ i18n.t('featured.title') }}</h2>
+    </div>
+
+    <div class="products-grid">
+      @for (product of products; track product.id) {
+        <div class="product-card card">
+          <!-- Badge -->
+          @if (product.tag) {
+            <div class="product-badge" [class]="'badge-' + product.tag">
+              {{ getTagLabel(product.tag) }}
+            </div>
+          }
+
+          <!-- Image area -->
+          <div class="product-image">
+            <span class="product-emoji">{{ product.image }}</span>
+            <div class="product-actions">
+              <button class="action-btn" title="Yêu thích">♡</button>
+              <button class="action-btn" title="Xem nhanh">👁</button>
+            </div>
+          </div>
+
+          <!-- Info -->
+          <div class="card-body">
+            <div class="product-category badge badge-primary">
+              {{
+                product.category === 'dogs'
+                  ? '🐕 Chó'
+                  : product.category === 'cats'
+                    ? '🐈 Mèo'
+                    : '🐠 Cá'
+              }}
+            </div>
+
+            <h3 class="product-name">
+              {{ i18n.lang() === 'vi' ? product.name : product.nameEn }}
+            </h3>
+
+            <div class="product-rating">
+              <span class="stars">{{ getStars(product.rating) }}</span>
+              <span class="text-muted body-sm">({{ product.reviews }})</span>
+            </div>
+
+            <div class="product-pricing">
+              <span class="price-current">{{ formatPrice(product.price) }}</span>
+              @if (product.originalPrice) {
+                <span class="price-original">{{ formatPrice(product.originalPrice) }}</span>
+                <span class="price-discount">
+                  -{{ Math.round((1 - product.price / product.originalPrice) * 100) }}%
+                </span>
+              }
+            </div>
+          </div>
+
+          <div class="card-footer">
+            <button class="btn btn-primary" style="width: 100%">
+              🛒 {{ i18n.t('featured.addToCart') }}
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+
+    <div class="text-center" style="margin-top: var(--space-2xl)">
+      <a routerLink="/products" class="btn btn-outline btn-lg">
+        {{ i18n.t('featured.viewAll') }} →
+      </a>
+    </div>
+  </div>
+</section>

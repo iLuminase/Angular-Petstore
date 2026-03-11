@@ -1,0 +1,27 @@
+<section class="section section-sm categories-section">
+  <div class="container">
+    <div class="section-header">
+      <p class="subtitle">{{ i18n.t('categories.title') }}</p>
+      <h2 class="display-2">{{ i18n.t('categories.subtitle') }}</h2>
+    </div>
+
+    <div class="categories-grid">
+      @for (cat of categories; track cat.key) {
+        <a [routerLink]="cat.route" class="category-card" [style.background]="cat.bg">
+          <div class="cat-emoji-wrap" [style.color]="cat.color">
+            <span class="cat-emoji">{{ cat.emoji }}</span>
+          </div>
+          <div class="cat-content">
+            <h3 class="cat-title" [style.color]="cat.color">
+              {{ i18n.t('categories.' + cat.key) }}
+            </h3>
+            <p class="cat-desc">{{ i18n.t('categories.' + cat.key + '.desc') }}</p>
+            <span class="cat-link" [style.color]="cat.color">
+              {{ i18n.t('categories.shopNow') }}
+            </span>
+          </div>
+        </a>
+      }
+    </div>
+  </div>
+</section>

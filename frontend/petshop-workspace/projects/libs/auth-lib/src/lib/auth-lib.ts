@@ -1,9 +1,3 @@
-import { Component } from '@angular/core';
+export * from './auth.guard';
+export * from './auth.service';
 
-@Component({
-  selector: 'lib-auth-lib',
-  imports: [],
-  template: ` <p>auth-lib works!</p> `,
-  styles: ``,
-})
-export class AuthLib {}

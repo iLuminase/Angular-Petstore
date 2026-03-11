@@ -1,0 +1,109 @@
+<section class="hero">
+  <!-- Background layers -->
+  <div class="hero-bg">
+    <div class="hero-gradient"></div>
+    <div class="hero-pattern"></div>
+  </div>
+
+  <!-- Floating pets decoration -->
+  <div class="hero-deco" aria-hidden="true">
+    <span class="deco deco-1">🐕</span>
+    <span class="deco deco-2">🐈</span>
+    <span class="deco deco-3">🐠</span>
+    <span class="deco deco-4">🦴</span>
+    <span class="deco deco-5">🐾</span>
+    <span class="deco deco-6">🐡</span>
+  </div>
+
+  <div class="container hero-content">
+    <div class="hero-text animate-in">
+      <div class="badge badge-secondary hero-badge">
+        <span>⭐</span> {{ i18n.t('hero.badge') }}
+      </div>
+
+      <h1 class="display-1 hero-title">{{ i18n.t('hero.title') }}</h1>
+
+      <p class="body-lg hero-subtitle">{{ i18n.t('hero.subtitle') }}</p>
+
+      <div class="hero-cta">
+        <a routerLink="/products" class="btn btn-secondary btn-lg" (click)="onShopNow()">
+          🛒 {{ i18n.t('hero.cta.shop') }}
+        </a>
+        <a routerLink="/products" class="btn btn-outline-white btn-lg">
+          {{ i18n.t('hero.cta.explore') }} →
+        </a>
+      </div>
+
+      <!-- Stats -->
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-value">500+</span>
+          <span class="stat-label">{{ i18n.t('hero.stat.products') }}</span>
+        </div>
+        <div class="stat-sep"></div>
+        <div class="stat">
+          <span class="stat-value">10k+</span>
+          <span class="stat-label">{{ i18n.t('hero.stat.customers') }}</span>
+        </div>
+        <div class="stat-sep"></div>
+        <div class="stat">
+          <span class="stat-value">2h</span>
+          <span class="stat-label">{{ i18n.t('hero.stat.delivery') }}</span>
+        </div>
+        <div class="stat-sep"></div>
+        <div class="stat">
+          <span class="stat-value">4.9★</span>
+          <span class="stat-label">{{ i18n.t('hero.stat.rating') }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero visual -->
+    <div class="hero-visual animate-in">
+      <div class="hero-card-main">
+        <div class="pet-showcase">
+          <div class="pet-item pet-dog">
+            <span class="pet-emoji">🐕</span>
+            <span class="pet-label">Chó</span>
+          </div>
+          <div class="pet-item pet-cat">
+            <span class="pet-emoji">🐈</span>
+            <span class="pet-label">Mèo</span>
+          </div>
+          <div class="pet-item pet-fish">
+            <span class="pet-emoji">🐠</span>
+            <span class="pet-label">Cá</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Floating info cards -->
+      <div class="float-card float-card-1">
+        <span class="float-icon">🚀</span>
+        <div>
+          <strong>{{ i18n.t('hero.caption.delivery') }}</strong>
+          <span>Nội thành</span>
+        </div>
+      </div>
+      <div class="float-card float-card-2">
+        <span class="float-icon">❤️</span>
+        <div>
+          <strong>10,000+</strong>
+          <span>{{ i18n.t('hero.caption.customers') }}</span>
+        </div>
+      </div>
+      <div class="float-card float-card-3">
+        <span class="float-icon">⭐</span>
+        <div>
+          <strong>4.9 / 5</strong>
+          <span>{{ i18n.t('hero.caption.rating') }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="scroll-indicator">
+    <div class="scroll-line"></div>
+  </div>
+</section>

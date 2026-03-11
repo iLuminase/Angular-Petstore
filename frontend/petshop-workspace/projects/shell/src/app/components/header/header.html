@@ -1,0 +1,111 @@
+<header class="site-header" [ngClass]="{ scrolled: scrolled(), 'menu-open': menuOpen() }">
+  <div class="container header-inner">
+    <!-- Logo -->
+    <a routerLink="/" class="logo" (click)="closeMenu()">
+      <span class="logo-icon">🐾</span>
+      <span class="logo-text">
+        <span class="logo-main">PetStore</span>
+        <span class="logo-sub">{{ i18n.t('header.tagline') }}</span>
+      </span>
+    </a>
+
+    <!-- Desktop nav -->
+    <nav class="nav-desktop" aria-label="Điều hướng chính">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        {{ i18n.t('nav.home') }}
+      </a>
+      <a routerLink="/products" routerLinkActive="active">{{ i18n.t('nav.products') }}</a>
+      <a routerLink="/products/dogs" routerLinkActive="active"> {{ i18n.t('nav.dogs') }}</a>
+      <a routerLink="/products/cats" routerLinkActive="active"> {{ i18n.t('nav.cats') }}</a>
+      <a routerLink="/products/fish" routerLinkActive="active"> {{ i18n.t('nav.fish') }}</a>
+    </nav>
+
+    <!-- Actions -->
+    <div class="header-actions">
+      <!-- Language switcher -->
+      <div class="lang-switcher" (click)="toggleLangMenu()">
+        <span class="lang-flag">{{ i18n.lang() === 'vi' ? '🇻🇳' : '🇺🇸' }}</span>
+        <span class="lang-code">{{ i18n.lang().toUpperCase() }}</span>
+        <span class="chevron">▾</span>
+        <div class="lang-dropdown" [ngClass]="{ open: langMenuOpen() }">
+          <button (click)="setLang('vi'); $event.stopPropagation()">🇻🇳 Tiếng Việt</button>
+          <button (click)="setLang('en'); $event.stopPropagation()">🇺🇸 English</button>
+        </div>
+      </div>
+
+      <!-- Cart -->
+      <a routerLink="/cart" class="btn-icon" [attr.aria-label]="i18n.t('nav.cart')">
+        <svg
+          width="22"
+          height="22"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <circle cx="9" cy="21" r="1" />
+          <circle cx="20" cy="21" r="1" />
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+        </svg>
+      </a>
+
+      <!-- Auth -->
+      <ng-container *ngIf="auth.initialized()">
+        <ng-container *ngIf="auth.isLoggedIn(); else loginBtn">
+          <div class="user-menu">
+            <div class="user-avatar">{{ auth.profile()!.firstName.charAt(0) }}</div>
+            <div class="user-dropdown">
+              <div class="user-info">
+                <strong>{{ auth.profile()!.fullName }}</strong>
+                <span>{{ auth.profile()!.email }}</span>
+              </div>
+              <hr />
+              <a routerLink="/profile">{{ i18n.t('nav.profile') }}</a>
+              <a routerLink="/orders">{{ i18n.t('nav.orders') }}</a>
+              <hr />
+              <button (click)="logout()">{{ i18n.t('nav.logout') }}</button>
+            </div>
+          </div>
+        </ng-container>
+        <ng-template #loginBtn>
+          <button class="btn btn-primary btn-sm" (click)="login()">
+            {{ i18n.t('nav.login') }}
+          </button>
+        </ng-template>
+      </ng-container>
+
+      <!-- Hamburger -->
+      <button class="hamburger" (click)="toggleMenu()" [attr.aria-label]="i18n.t('nav.menu')">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile nav -->
+  <div class="nav-mobile" [ngClass]="{ open: menuOpen() }">
+    <a
+      routerLink="/"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      (click)="closeMenu()"
+    >
+      {{ i18n.t('nav.home') }}
+    </a>
+    <a routerLink="/products" routerLinkActive="active" (click)="closeMenu()">{{
+      i18n.t('nav.products')
+    }}</a>
+    <a routerLink="/products/dogs" routerLinkActive="active" (click)="closeMenu()"
+      >🐶 {{ i18n.t('nav.dogs') }}</a
+    >
+    <a routerLink="/products/cats" routerLinkActive="active" (click)="closeMenu()"
+      >🐱 {{ i18n.t('nav.cats') }}</a
+    >
+    <a routerLink="/products/fish" routerLinkActive="active" (click)="closeMenu()"
+      >🐟 {{ i18n.t('nav.fish') }}</a
+    >
+    <div class="mobile-lang">
+      <button (click)="setLang('vi')">🇻🇳 Tiếng Việt</button>
+      <button (click)="setLang('en')">🇺🇸 English</button>
+    </div>
+  </div>
+</header>

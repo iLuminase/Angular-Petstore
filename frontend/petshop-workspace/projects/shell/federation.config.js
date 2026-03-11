@@ -15,7 +15,12 @@ module.exports = withNativeFederation({
     'rxjs/fetch',
     'rxjs/testing',
     'rxjs/webSocket',
-    // Add further packages you don't need at runtime
+    // Node.js-only packages — not for browser bundling
+    'express',
+    'express-generator',
+    'nodemon',
+    'slugify',
+    '@oxc-parser/binding-win32-x64-msvc',
   ],
 
   // Please read our FAQ about sharing libs:

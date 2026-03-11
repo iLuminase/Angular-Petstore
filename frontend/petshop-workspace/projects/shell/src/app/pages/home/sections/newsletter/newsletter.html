@@ -1,0 +1,36 @@
+<section class="newsletter-section">
+  <div class="container">
+    <div class="newsletter-inner">
+      <div class="newsletter-deco" aria-hidden="true">🐾🐕🐈🐠🐾</div>
+
+      <div class="newsletter-content">
+        <h2 class="display-2" style="color: #fff">{{ i18n.t('newsletter.title') }}</h2>
+        <p style="color: rgba(255, 255, 255, 0.8); margin-top: var(--space-sm)">
+          {{ i18n.t('newsletter.subtitle') }}
+        </p>
+      </div>
+
+      @if (!submitted()) {
+        <form class="newsletter-form" (ngSubmit)="submit()">
+          <input
+            type="email"
+            class="newsletter-input"
+            [placeholder]="i18n.t('newsletter.placeholder')"
+            [value]="email()"
+            (input)="email.set($any($event.target).value)"
+            required
+          />
+          <button type="submit" class="btn btn-secondary btn-lg">
+            {{ i18n.t('newsletter.cta') }}
+          </button>
+        </form>
+        <p class="newsletter-privacy">🔒 {{ i18n.t('newsletter.privacy') }}</p>
+      } @else {
+        <div class="newsletter-success">
+          <span class="success-icon">✅</span>
+          <p>Cảm ơn bạn đã đăng ký! Chúng tôi sẽ gửi ưu đãi sớm nhất. 🎉</p>
+        </div>
+      }
+    </div>
+  </div>
+</section>

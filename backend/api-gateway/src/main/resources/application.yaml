@@ -2,5 +2,30 @@ spring:
   application:
     name: api-gateway
 
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/petstore
+
+  cloud:
+    gateway:
+      mvc:
+        routes:
+          - id: api-product
+            uri: http://localhost:8081
+            predicates:
+              - Path=/api/products/**,/api/categories/**
+
+          - id: api-order
+            uri: http://localhost:8082
+            predicates:
+              - Path=/api/cart/**
+
+          - id: api-report
+            uri: http://localhost:8083
+            predicates:
+              - Path=/api/reports/**
+
 server:
   port: 8000
